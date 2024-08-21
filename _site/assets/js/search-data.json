@@ -1,207 +1,256 @@
 {"0": {
     "doc": "3.1. Page Operations",
+    "title": "3.1.1. Write Page to Disk",
+    "content": " ",
+    "url": "/docs/mongo03/01/#311-write-page-to-disk",
+    
+    "relUrl": "/docs/mongo03/01/#311-write-page-to-disk"
+  },"1": {
+    "doc": "3.1. Page Operations",
+    "title": "3.1.2. Read Page from Disk",
+    "content": " ",
+    "url": "/docs/mongo03/01/#312-read-page-from-disk",
+    
+    "relUrl": "/docs/mongo03/01/#312-read-page-from-disk"
+  },"2": {
+    "doc": "3.1. Page Operations",
     "title": "3.1. Page Operations",
-    "content": "3.1. PAGE OPERATIONS . When an existing btree is opened for the first time, the location of the root block is contained in the metadata file WiredTiger.wt. The block manager will read the block at the location specified and return the page image as a buffer to the layer above. This will then be instantiated as a page in memory. From there subsequent page addresses can be read from the root page and the process repeated as required. If a cursor traverses to a page which hasn’t been read into memory the same process will take place. ",
+    "content": "3.1. PAGE OPERATIONS . ",
     "url": "/docs/mongo03/01/",
     
     "relUrl": "/docs/mongo03/01/"
-  },"1": {
+  },"3": {
     "doc": "2.1. Data Storage",
     "title": "2.1. Data Storage",
     "content": "2.1. DATA STORAGE . Document-Oriented Storage (BSON) . MongoDB’s document-oriented design, which we’ve discussed earlier, works seamlessly with BSON, the binary format used for storing documents. BSON, short for Binary JSON, is an open standard, and you can find its specification at bsonspec.org. Key Points about BSON . | Efficiency Over Space-Saving: &lt;br&gt; MongoDB prioritizes speed over space efficiency. While BSON might take up more space than JSON in some cases, it makes traversing and indexing documents much faster. This tradeoff is generally acceptable because MongoDB is designed to scale across machines, and storage is relatively inexpensive. WiredTiger, MongoDB’s default storage engine, supports multiple compression libraries and has index and data compression enabled by default. Compression levels can be configured both at the server level and per collection, allowing you to balance CPU usage with disk space savings. | Ease of Conversion: &lt;br&gt; BSON is easy to convert to a programming language’s native data format. If MongoDB used pure JSON, a higher-level conversion would be necessary, potentially slowing down operations. MongoDB drivers are available for many programming languages (e.g., Python, Ruby, PHP, C, C++, and C#), and each works slightly differently. The simple binary format of BSON allows native data structures to be built quickly in each language, making the code simpler and faster. | BSON Extension: &lt;br&gt; BSON provides some extensions to JSON, such as the ability to store binary data and specific data types. While BSON can store any JSON document, a valid BSON document may not be valid JSON. This distinction is handled by MongoDB’s drivers, which convert data to and from BSON without needing to use JSON as an intermediary format. | . The WiredTiger storage engine manages data in page units. The pages are connected via a B-tree structure and within each page, data is stored in a cell struct format. Additionally, to reduce data storage space, the Snappy compression algorithm is used to compress the page. The Snappy compression algorithm is used by default, but the settings can be changed. To search for a page in the WiredTiger storage engine metadata files, WiredTiger.tutle, WiredTiger.wt, and _md_catalog.wt must be interpreted. The WiredTiger.tutle file has a general text file format, and the WiredTiger.wt file’s root page offset is included in the configuration string. By interpreting the B-tree structure starting with the WiredTiger.wt file’s root page offset and then extracting the data, the configuration strings of the collection-#-####∼.wt file and the _md_catalog.wt file can be determined. The collection-#-####∼.wt file is the file where the actual data is stored. The _md_catalog.wt file stores data that can connect the namespace string and the data file name. The collection-#-####∼.wt file is the file that stores actual user data; one is created per collection. The # in the file name depicts the number, and the number behind the first hyphen increases by one as the files get created. The numbers behind the second hyphen are 19 randomly generated numbers that define the file name. User data is stored in a BSON format in the cell struct of the leaf page. ",
     "url": "/docs/mongo02/01/",
     
     "relUrl": "/docs/mongo02/01/"
-  },"2": {
+  },"4": {
     "doc": "1.1. Database Internals",
     "title": "1.1.1. Frontend",
     "content": "API . The frontend is the interface we interact with, often using an API. The most common API is SQL (Structured Query Language), which allows us to query and manage data in a structured format like tables, rows, and columns. However, different databases might use other APIs, such as Redis, which operates without structured queries and instead uses commands like GET and SET to store and retrieve documents. Data Format . The data format defines how data is stored and retrieved. Traditionally, databases used tables with rows and columns, a structure that SQL was designed to query. This design was prevalent from the 1960s and 1970s. However, with the evolution of the web, new data formats emerged, such as JSON documents, which offer more flexibility by not requiring a fixed schema. ",
     "url": "/docs/mongo01/01/#111-frontend",
     
     "relUrl": "/docs/mongo01/01/#111-frontend"
-  },"3": {
+  },"5": {
     "doc": "1.1. Database Internals",
     "title": "1.1.2. Storage Engine",
     "content": "The storage engine is the crucial part of a database, handling how data is stored on disk. It operates independently of the type of data stored, dealing only with bytes organized into pages. The storage engine is also responsible for efficiently managing these pages, supporting features like: . | Indexing . | Transactions . | Data compression . | . In the 2000s, the NoSQL movement emerged, challenging the fixed schema approach of traditional SQL databases. NoSQL databases, such as those handling JSON documents, prioritize flexibility and scalability. They use different storage engines and APIs, focusing on storing documents or graphs rather than rows and columns. Indexes and Transactions . | Indexes are crucial for efficient data retrieval, helping to locate data quickly without scanning entire tables or documents. They can be based on various structures, such as B-trees, to enhance search efficiency. | Transactions ensure that multiple operations are performed as a single unit, maintaining database consistency. The storage engine manages these indexes and handles transactions to ensure data integrity. This includes maintaining logs like the Write-Ahead Log (WAL) to recover from crashes by replaying changes made before the failure. | . The key difference between SQL and NoSQL databases lies in their approach to data format and API usage. SQL databases use structured tables and SQL queries, while NoSQL databases often use documents or graphs and a variety of APIs to meet modern application needs. The storage engine remains a critical component in both, ensuring data is stored, indexed, and retrieved efficiently. ",
     "url": "/docs/mongo01/01/#112-storage-engine",
     
     "relUrl": "/docs/mongo01/01/#112-storage-engine"
-  },"4": {
+  },"6": {
     "doc": "1.1. Database Internals",
     "title": "1.1. Database Internals",
     "content": "1.1. DATABASE INTERNALS Databases typically consist of two main components: the frontend and the storage engine. ",
     "url": "/docs/mongo01/01/",
     
     "relUrl": "/docs/mongo01/01/"
-  },"5": {
+  },"7": {
+    "doc": "2.2. Indexes",
+    "title": "2.2.1. Indexing",
+    "content": "_id Index . | Automatic Indexing: When you create a collection in MongoDB, a primary key called _id is automatically generated for each document. This key is indexed using a B+Tree structure to optimize search operations. The _id uniquely identifies each document and can be used to efficiently locate it. | ObjectId: The _id field is typically of type ObjectId, a 12-byte identifier. Its size ensures unique identification across distributed systems, like sharded clusters. Users can override the _id field with their own values, which might increase the key size, potentially impacting performance. | Primary Index: The primary index maps the _id to the corresponding BSON document through a B+Tree structure. As MongoDB has evolved, the way this mapping is handled has also changed, which will be explored in the following sections. | . Secondary Indexes . | Custom Indexing: MongoDB allows the creation of secondary B+Tree indexes on any field within a collection. These indexes point back to BSON documents that satisfy the index criteria, enabling fast data retrieval using various fields, not just _id. Without secondary indexes, MongoDB would need to scan the entire collection, field by field, to locate specific data. | Index Size: The size of a secondary index depends on two factors: the size of the indexed field (key size) and the size of the document pointer. The efficiency and storage requirements of these indexes can vary depending on the MongoDB version and storage engine in use. | . ",
+    "url": "/docs/mongo02/02/#221-indexing",
+    
+    "relUrl": "/docs/mongo02/02/#221-indexing"
+  },"8": {
+    "doc": "2.2. Indexes",
+    "title": "2.2.2. Evolution of MongoDB’s Indexing",
+    "content": "MMAPv1 . | Diskloc: Initially, MongoDB used the MMAPv1 storage engine, where BSON documents were stored directly on disk without compression. The _id primary key index mapped to a Diskloc value, a pair of 32-bit integers representing the file number and offset on disk where the document was stored. | . | Challenges: While Diskloc allowed for O(1) retrieval of documents, it was difficult to maintain as documents were inserted or updated. Updates that changed document sizes required recalculating offsets for all subsequent documents, leading to inefficiencies. Additionally, MMAPv1 employed a single global database lock for writes, which severely limited concurrent write operations. | . WiredTiger . | MongoDB v4.2-5.2: In 2014, MongoDB acquired WiredTiger, which became the default storage engine. WiredTiger introduced several enhancements, such as document-level locking and compression, allowing for more efficient concurrent writes within the same collection. BSON documents in WiredTiger are compressed and stored in a hidden index, where leaf pages are recordId-BSON pairs. This design allows for more efficient I/O operations, improving overall performance. | . Double Lookup Cost With WiredTiger, the primary index _id and secondary indexes were modified to point to recordId instead of Diskloc. This change, while beneficial, introduced a double lookup cost: retrieving a document required first finding the recordId via the _id index and then performing a second lookup on the hidden WiredTiger index to access the BSON document. Despite this overhead, the size of both primary and secondary indexes remained predictable, thanks to the 64-bit recordId. | MongoDB v5.3~: In June 2022, MongoDB introduced clustered collections, where the primary _id index became a clustered index. In this setup, all fields are stored in the leaf page, enabling index-only scans. This change means that looking up a document by _id directly returns the BSON document, eliminating the need for a second lookup. | . Impact on Secondary Indexes With clustered collections, secondary indexes now point to the _id field rather than recordId. This change increases the size of secondary indexes, as they must store the 12-byte _id value (or more if overridden by the user). This can significantly bloat secondary indexes, impacting performance and memory usage, especially in data-intensive applications. ",
+    "url": "/docs/mongo02/02/#222-evolution-of-mongodbs-indexing",
+    
+    "relUrl": "/docs/mongo02/02/#222-evolution-of-mongodbs-indexing"
+  },"9": {
     "doc": "2.2. Indexes",
     "title": "2.2. Indexes",
-    "content": "2.2. INDEXES MongoDB offers extensive support for indexing documents, a crucial feature when dealing with large collections containing tens of thousands of documents. Without an index, MongoDB would need to scan each document individually to find the data you need—similar to a librarian searching every book in a library to find the one you’re looking for. In contrast, an indexing system allows MongoDB to quickly locate the relevant documents, much like how a librarian uses the Dewey Decimal system to locate books. Built-in Indexing on _id Key . | Automatic Indexing: All documents in MongoDB are automatically indexed on the _id key. This key is special because it cannot be deleted, and the index ensures that each value is unique. This guarantees that every document is uniquely identifiable, something that traditional RDBMS systems don’t always ensure. | . Creating Custom Indexes . | Uniqueness Enforcement:When creating your own indexes, you can decide whether to enforce uniqueness. By default, MongoDB will return an error if you try to create a unique index on a key that has duplicate values. However, there are many scenarios where allowing duplicates in an index is beneficial. For instance, if your application frequently searches by last name, it makes sense to create an index on the lastname key, even though duplicates are likely. | Indexing Embedded Documents:MongoDB also supports indexing embedded documents. For example, if you store addresses in an address field, you can create an index on the ZIP or postal code. This enables you to quickly retrieve documents based on postal codes. | Composite Indexes: MongoDB allows you to create composite indexes, which use two or more keys to build a single index. For example, you could create an index that combines both lastname and firstname fields. This would make searching for a full name very efficient, as MongoDB can rapidly narrow down the results. | . Data Modeling and Indexing . | Conceptual Mapping with RDBMS:In MongoDB, there is a conceptual mapping between traditional RDBMS data models and MongoDB’s approach. A MongoDB collection corresponds to a table in RDBMS, a BSON document is similar to a row, and key-value pairs in a document are analogous to fields in a row. | Primary Index on _id:When a new document is created, MongoDB automatically assigns an _id as the primary key, with its value increasing monotonically. A primary index is also automatically built based on the _id key. | Secondary Indexes:MongoDB supports secondary indexes, and each time a new secondary index is created, a corresponding index file is generated in the associated directory. However, when deciding to add a secondary index, you must carefully consider the trade-off between read and write performance. For workloads with frequent updates, more secondary indexes can slow down the system, as each update to collection pages requires corresponding updates to the secondary indexes. | Storage Structure: MongoDB’s WiredTiger storage engine uses the B+Tree data structure to store both collection and index files. Unlike RDBMS, MongoDB offers flexible schemas within its semi-structured BSON format, and JOIN operations are not necessary in MongoDB. | . ",
+    "content": "2.2. INDEXES Indexing is a critical feature in MongoDB, especially when managing large collections with tens of thousands of documents. Without indexes, MongoDB would need to perform a full collection scan to find specific data, much like a librarian searching every book in a library. Indexes in MongoDB, however, allow for rapid document retrieval, similar to how the Dewey Decimal system helps a librarian locate books efficiently. ",
     "url": "/docs/mongo02/02/",
     
     "relUrl": "/docs/mongo02/02/"
-  },"6": {
+  },"10": {
     "doc": "1.2. Architecture",
     "title": "1.2.1. Architecture",
     "content": "Client . | Applications: This top layer consists of applications that interact with MongoDB. These client applications send data requests to the server and handle the responses. They utilize MongoDB drivers and libraries to communicate with the database, performing operations like inserting, querying, updating, and deleting data. | . Server . | Security: This module handles authentication and authorization, ensuring that only authorized users and applications can access the database. It implements security policies to protect data against unauthorized access and attacks. | Query Engine: The query engine processes and executes database queries received from client applications. It optimizes query performance and determines the most efficient way to retrieve or modify data. | Storage Engine: This component is responsible for the actual storage and retrieval of data. It manages how data is written to and read from the disk, ensuring efficient data access and integrity. | Management: The management layer supports administrative tasks such as monitoring, backup, recovery, and system scaling. It helps maintain the overall performance and reliability of the database system. | . Disk . | The disk layer represents the physical storage where data is persistently stored. The storage engine writes data to the disk and retrieves it for queries, ensuring data durability and availability. | . ",
     "url": "/docs/mongo01/02/#121-architecture",
     
     "relUrl": "/docs/mongo01/02/#121-architecture"
-  },"7": {
+  },"11": {
     "doc": "1.2. Architecture",
     "title": "1.2.2. Components",
     "content": "MongoDB stores data records as documents (specifically BSON documents), which are gathered together in collections. A database stores one or more collections of documents. Collections &amp; Documents . In MongoDB, a collection is a fundamental component that contains a set of documents. Collections do not need to exist before inserting a document. When you add the first document to a collection, MongoDB automatically creates the collection if it doesn’t already exist. A document in MongoDB is a set of key-value pairs and serves as the primary building block of data. Documents are represented in JSON (JavaScript Object Notation) format, which aligns with MongoDB’s schema-less design. Data is stored in BSON (Binary JSON), a binary representation of JSON documents. BSON is used because it supports more data types than JSON, including various data types, documents, and arrays. Because documents can be large, MongoDB sometimes compresses them to reduce their size further, although this is not always the case. Users create collections to hold multiple documents. Since MongoDB is a schema-less database, collections can store documents with different fields. This flexibility allows users to insert documents with fields that have never existed in any previous document within the collection. ",
     "url": "/docs/mongo01/02/#122-components",
     
     "relUrl": "/docs/mongo01/02/#122-components"
-  },"8": {
+  },"12": {
     "doc": "1.2. Architecture",
     "title": "1.2. Architecture",
     "content": "1.2. ARCHITECTURE The MongoDB architecture is structured horizontally into three main layers: the MongoDB Client, the MongoDB Server, and the Disk. ",
     "url": "/docs/mongo01/02/",
     
     "relUrl": "/docs/mongo01/02/"
-  },"9": {
+  },"13": {
     "doc": "3.2. Checksum",
     "title": "3.2. Checksum",
     "content": "3.2. CHECKSUMS . Methods to delete data in a MongoDB include deleting documents in the collections, dropping the entire collection, and dropping the entire database. Using the instruction, db.&lt;collection name&gt;.remove ({&lt;remove condition&gt;}), the relevant documents are deleted from the MongoDB. It is a method generally used to delete data. To drop the entire collection, the instruction db.&lt;collection name&gt;.drop() is used in the MongoDB shell, and to drop the entire database, the db.dropDatabase() instruction is used. In Deleted data recovery , we will examine the changes to the data file in each storage engine when data is deleted. If a document is deleted from the WiredTiger storage engine, the page containing the document is excluded from the B-tree and a new page with the deletion applied is created and linked to the B-tree. The page excluded from the B-tree, in other words, the page containing the deleted document, does not get immediately deleted from the disk, but if additional data input and deletion occurs, it will be overwritten by a new page. ",
     "url": "/docs/mongo03/02/",
     
     "relUrl": "/docs/mongo03/02/"
-  },"10": {
+  },"14": {
     "doc": "2.3. Concurrency Control",
     "title": "2.1.1. Lock Granularities",
     "content": "WiredTiger introduces a significant improvement in concurrency control over the previous MMAPv1 storage engine by supporting document-level locking. This enhancement allows for more granular control of data access, enabling MongoDB to optimize performance in multi-user environments. In MongoDB, the concept of lock granularity refers to the size or scope of a lock applied during database operations. The database architecture supports various levels of locking granularity, ranging from large (entire databases) to small (individual documents). This flexibility in lock granularity is essential for optimizing performance and concurrency in a multi-user environment. | Database Level: . | At the highest level of granularity, a lock can be applied to an entire database. This type of lock would restrict access to all collections and documents within that database. However, such a broad lock is rarely used in MongoDB because it severely limits concurrent access and can lead to significant bottlenecks. | . | Collection Level: . | A step down in granularity is the collection-level lock, which restricts access to all documents within a specific collection. While this allows operations to proceed concurrently on different collections within the same database, it still limits concurrency within the collection itself. | . | Document Level: . | Document-level locking is the most granular approach and is a key feature of the WiredTiger storage engine used by MongoDB. This level of locking allows transactions to lock individual documents, enabling multiple operations to be performed concurrently on different documents within the same collection. This fine-grained locking minimizes contention and maximizes throughput by allowing other transactions to access and modify different documents simultaneously. | . | . The concept of lock hierarchy involves the sequence or levels at which locks are applied to manage concurrent operations efficiently. This hierarchy ensures that locks are only applied where necessary, reducing the time and scope of locks to improve performance. ",
     "url": "/docs/mongo02/03/#211-lock-granularities",
     
     "relUrl": "/docs/mongo02/03/#211-lock-granularities"
-  },"11": {
+  },"15": {
     "doc": "2.3. Concurrency Control",
     "title": "2.1.2. Lock Hierarchy",
     "content": ". | Consider a transaction T₁ that needs to perform operations on specific documents within a collection. The transaction begins by acquiring a lock at the collection level, which gives it access to the collection containing the desired documents. | Within the collection, the transaction acquires locks on individual documents that it needs to read or modify. These document-level locks ensure that the transaction can proceed without interference from other transactions attempting to modify the same documents. | This approach allows other transactions to concurrently access and modify different documents, enhancing overall system performance and scalability. | . ",
     "url": "/docs/mongo02/03/#212-lock-hierarchy",
     
     "relUrl": "/docs/mongo02/03/#212-lock-hierarchy"
-  },"12": {
+  },"16": {
     "doc": "2.3. Concurrency Control",
     "title": "2.1.3. Document-Level Concurrency",
     "content": ". WiredTiger, the default storage engine in MongoDB, uses sophisticated concurrency control mechanisms to improve performance and scalability, particularly through document-level concurrency. Here’s how it operates: . | Mutexes and Read-Write (RW) Locks: | . | WiredTiger employs mutexes and RW locks to manage concurrent access to documents. These locks provide the necessary control to ensure safe read and write operations in a multi-threaded environment. | Mutexes are used to ensure exclusive access to critical sections of the code or resources, preventing multiple threads from entering the section simultaneously. | Read-Write (RW) Locks allow multiple threads to read a document concurrently (shared access) while ensuring that only one thread can write to a document at a time (exclusive access). | . | MVCC: | . | WiredTiger uses MVCC to manage concurrent access by maintaining multiple versions of a document. | This allows readers to access the last committed version of a document, ensuring consistent data views without blocking ongoing write operations. | . | Transaction T₁ reads a document in Collection R. It acquires an IS lock on the collection and an RW lock on the document. This allows T₁ to read the document while permitting other transactions to concurrently read from the same collection or document. | While T₁ continues its read, Transaction T₂ updates a different document in the same collection. T₂ acquires an IX lock on the collection and an Rw lock on the document it updates. This enables both transactions to proceed without blocking each other, maximizing throughput. | . ",
     "url": "/docs/mongo02/03/#213-document-level-concurrency",
     
     "relUrl": "/docs/mongo02/03/#213-document-level-concurrency"
-  },"13": {
+  },"17": {
     "doc": "2.3. Concurrency Control",
     "title": "2.1.2. MVCC",
     "content": "Writers do not block readers. Readers do not block writers. WiredTiger, a high-performance storage engine used by MongoDB, employs an in-memory B-tree layout to organize and manage data efficiently. The B-tree structure ensures quick and efficient access to data, supporting a variety of database operations such as searches, inserts, updates, and deletions. | Root Pages | . | Contains references to internal pages, facilitating the initial navigation through the tree. | . | Internal Pages | . | Each internal page points to either other internal pages or leaf pages. | They help in navigating the tree structure by narrowing down the search path to the relevant leaf pages. | . | Leaf Pages | . | The actual data records (key-value pairs) are stored. | . When a page is loaded into the cache, WiredTiger constructs an internal structure tailored to the page type. For a row-store leaf page, this includes an array of WT_ROW objects, each representing a key-value pair. The page also maintains an update history through update buffers. These structures ensure that both current and historical data versions are accessible within the same page. Each record update creates a WT_UPDATE structure, which is linked to form an update buffer. This buffer allows WiredTiger to manage multiple versions of a record concurrently, supporting MVCC by enabling transactions to access the most appropriate version of the data based on their needs. MVCC enables different transactions to access different versions of the same data without locking conflicts, thereby improving concurrency. As updates occur, new versions are added to the update chain, while older versions remain accessible for long-running transactions, ensuring that readers do not block writers and vice versa. History Store . ",
     "url": "/docs/mongo02/03/#212-mvcc",
     
     "relUrl": "/docs/mongo02/03/#212-mvcc"
-  },"14": {
+  },"18": {
     "doc": "2.3. Concurrency Control",
     "title": "2.3. Concurrency Control",
     "content": "2.3. CONCURRENCY CONTROL Concurrency control is a fundamental aspect of database management that ensures multiple operations can be executed simultaneously without interfering with each other. In today’s world of high-performance applications and real-time data processing, efficient concurrency control is crucial for maintaining responsiveness and scalability. By allowing multiple operations to occur simultaneously, WiredTiger enhances the ability to handle high workloads efficiently. This chapter explores two key features that enable effective concurrency in MongoDB: document-level concurrency and multi-version concurrency control (MVCC). Storage enignes have direct control over concurrency. ",
     "url": "/docs/mongo02/03/",
     
     "relUrl": "/docs/mongo02/03/"
-  },"15": {
+  },"19": {
     "doc": "3.3. Space Management",
     "title": "3.3.1. Versioning and Storage of Data",
     "content": "MVCC Mechanism . WiredTiger implements a Multiple Version Concurrency Control (MVCC) mechanism. In MVCC, when a document or record is updated, a new version is created rather than overwriting the existing data. This allows older versions to remain available for transactions that began before the update, ensuring data consistency. Space Management . The presence of multiple versions due to MVCC requires efficient space management to prevent the accumulation of old versions from consuming excessive disk space. ",
     "url": "/docs/mongo03/03/#331-versioning-and-storage-of-data",
     
     "relUrl": "/docs/mongo03/03/#331-versioning-and-storage-of-data"
-  },"16": {
+  },"20": {
     "doc": "3.3. Space Management",
     "title": "3.3.2. Handling Dirty Pages",
     "content": "Dirty Pages . When data is modified, the changes are initially stored in memory as “dirty pages.” These pages contain the new versions created by MVCC. Checkpointing and Space Management . During the checkpointing process, WiredTiger writes these dirty pages out to disk. This process is not just about persisting changes; it’s also a critical component of space management. As the latest version of data is merged with the original on-disk image, older, outdated versions are effectively replaced, freeing up valuable disk space. Copy-on-Write Strategy . When an update request is received, WiredTiger fetches the corresponding page from storage into DRAM. It then employs a copy-on-write approach, which allows multiple versions of the data to exist without locking the original on-disk image. This strategy ensures that updates are efficiently managed while maintaining data consistency, as only the most recent committed versions are preserved and older versions are eventually reclaimed through the checkpointing process. ",
     "url": "/docs/mongo03/03/#332-handling-dirty-pages",
     
     "relUrl": "/docs/mongo03/03/#332-handling-dirty-pages"
-  },"17": {
+  },"21": {
     "doc": "3.3. Space Management",
     "title": "3.3.3. Extent Reuse",
     "content": "WiredTiger manages space using an extent data structure, where each extent includes a logical disk offset and size. There are three extent lists for each file that keep track of: . | Allocated Space: Extents currently in use, containing data. | Available Space: Extents that are free and can be used for new data. | Discarded Space: Extents that have been freed up after data is deleted or moved, and are awaiting reuse. | . As old versions are superseded by new ones and marked for deletion, the space they occupied is moved from the allocated list to the available or discarded list, depending on whether the space is immediately reusable. Before a data buffer is actually written out, the latest update version is applied to the original on-disk image. Then, the space management system allocates the logical disk address for the upcoming write based on one of three approaches: . | First-Fit: Selects the first extent in the available extent list that fits the data buffer. | Best-Fit: Selects the smallest extent that fits the data buffer. | Append: Adds the data buffer at the end of the file. | . ",
     "url": "/docs/mongo03/03/#333-extent-reuse",
     
     "relUrl": "/docs/mongo03/03/#333-extent-reuse"
-  },"18": {
+  },"22": {
     "doc": "3.3. Space Management",
     "title": "3.3.4. Space Reclamation",
     "content": "Through checkpoints and compaction processes, WiredTiger reclaims space from old, unused data versions, making it available for future writes. This ensures efficient space utilization and prevents the database from growing indefinitely. The figure below illustrates how WiredTiger manages extent lists and reuses previously allocated space using checkpoints: . | Checkpointing: Extent list information is maintained in the checkpoint structure and written to persistent storage during checkpointing. | Live Checkpoint: WiredTiger uses a special checkpoint called the live checkpoint, which only exists while the system is running and resides in DRAM. This checkpoint tracks both data changes and updates to the extent lists. | Merging Checkpoints: When the checkpoint server is signaled, the previous checkpoint is fetched from persistent storage and merged with the live checkpoint. After merging, the previous disk space occupied by the same data page is marked as available and can be reused for subsequent writes. | . This system ensures efficient space management, allowing WiredTiger to reuse space and maintain data consistency through checkpointing. ",
     "url": "/docs/mongo03/03/#334-space-reclamation",
     
     "relUrl": "/docs/mongo03/03/#334-space-reclamation"
-  },"19": {
+  },"23": {
     "doc": "3.3. Space Management",
     "title": "3.3. Space Management",
     "content": "3.3. SPACE MANAGEMENT . ",
     "url": "/docs/mongo03/03/",
     
     "relUrl": "/docs/mongo03/03/"
-  },"20": {
+  },"24": {
+    "doc": "2.4. Page Operations",
+    "title": "2.4.1. Write",
+    "content": " ",
+    "url": "/docs/mongo02/04/#241-write",
+    
+    "relUrl": "/docs/mongo02/04/#241-write"
+  },"25": {
+    "doc": "2.4. Page Operations",
+    "title": "2.4.2. Read",
+    "content": " ",
+    "url": "/docs/mongo02/04/#242-read",
+    
+    "relUrl": "/docs/mongo02/04/#242-read"
+  },"26": {
+    "doc": "2.4. Page Operations",
+    "title": "2.4. Page Operations",
+    "content": "2.4. PAGE OPERATIONS . ",
+    "url": "/docs/mongo02/04/",
+    
+    "relUrl": "/docs/mongo02/04/"
+  },"27": {
     "doc": "3.4. Compression",
     "title": "3.4. Compression",
     "content": "3.4. COMPRESSION . I/O is the main bottleneck if the DBMS fetches data from disk during query execution. To mitigate this, the DBMS can compress pages to maximize the efficiency of the data moved per I/O operation. Goals . | Fixed-Length Values: . | The compression process should produce fixed-length values. | The only exception is variable-length data, which should be stored in a separate pool. | . | Postpone Decompression: . | Decompression should be delayed as long as possible during query execution, a technique known as late materialization. | . | Lossless Compression: . | The compression scheme must ensure that no data is lost during the process. | . | . Compression Granularity . | Block-level . | Compress a block of tuples for the same table. | . | Tuple-level . | Compress the contents of the entire tuple. | . | Attribute-level . | Compress a single attribute within one tuple. | Can target multiple attributes for the same tuple. | . | Column-level . | Compress multiple values for one or more attributes stored for multiple tuples. | . | . Compression Algorithms . WiredTiger, used by MongoDB, supports compression of data on disk across three specific areas. There are two primary compression algorithms available, each with its own trade-offs: . | snappy (2011) . | The default compression algorithm used by WiredTiger. | It provides fast compression with low CPU overhead, making it suitable for general-purpose use where performance is a priority over maximum compression. | . | zlib (1995) . | A widely-used compression algorithm that offers higher compression ratios than snappy. | It requires more CPU resources and time, making it better suited for scenarios where storage efficiency is more important than performance. | . | zstd (2015) . | A modern compression algorithm that balances high compression ratios with relatively fast processing times. | It generally provides better compression than snappy and is more efficient in terms of speed compared to zlib, but still requires more CPU than snappy. | . | none . | This option disables compression entirely, which may be desirable in cases where compression overhead is not acceptable or storage space is not a concern. | . | . Compression Areas . WiredTiger allows compression in the following areas: . | Collection Data: Compresses the data within collections. | Index Data: Compresses the data within indexes. | Journal Data: Compresses the data used for ensuring redundancy and recoverability while being written to long-term storage. | . Prefix Compression . MongoDB WiredTiger’s row-store storage format supports a variant of prefix compression in the disk layout by identifying prefixes between adjacent keys, similar to delta-encoding: . | Prefix Handling: . | Each key stores only the suffix key bytes and the number of prefix bytes common with the previous key. | The first key in the node is stored fully; following keys store only the suffix. | . | Example: . | First key: \"abcd\" (prefix size: 0). | Second key: \"abefg\" (shares \"ab\" with \"abcd\", stores \"efg\" and prefix size 2). | . | Key Decompression: . | Decompression requires finding a fully instantiated key and then walking forward to build the key. | . | . Suffix Truncation . WiredTiger implements a suffix truncation technique similar to Tail Compression: . | Example: . | When a node splits between keys \"abfe\" and \"bacd\", \"b\" is promoted to the parent node instead of the entire key \"bacd\". | . | . Key Instantiation Techniques . WiredTiger supports two key instantiation techniques to help with search and insertion: . | Best Prefix Group: . | Maintains a best slot whose base key can be used to decompress the most keys without scanning. | The most-used page key prefix is the longest group of compressed key prefixes that can be built from a single, fully instantiated key. | . | Roll-forward Distance Control: . | Instantiates some keys in advance to avoid slow searches. | Limits how far the cursor must roll backward by setting a “skipping distance.” | For each set of keys within this distance, WiredTiger instantiates the first key. | . | . ",
     "url": "/docs/mongo03/04/",
     
     "relUrl": "/docs/mongo03/04/"
-  },"21": {
+  },"28": {
     "doc": "3.5. Logging",
     "title": "3.5. Logging",
     "content": "3.5. LOGGING . To ensure consistency and durability, MongoDB employs a journaling approach and periodically triggers checkpoints at defined intervals. Crashes between checkpoints, however, may result in a loss of writes that have not yet been written to disk. Write-ahead logging (WAL) provides a way to make these writes durable. Write-Ahead Logging (WAL) . Write-Ahead Logging (WAL) is a family of techniques designed to provide atomicity and durability (two of the ACID properties) in database systems. WAL involves wrapping information about the current write operation and storing it durably before confirming the write to the client application. A log sequence number (LSN) is usually associated with each logged write to establish the happen-before relation between logs. Log records are stored in a memory log buffer and are later synchronously written to non-volatile storage by the WAL protocol. Upon failure, a data recovery scheme like ARIES replays all logs in LSN order to reconstruct the state of the database immediately prior to the crash. | Name | Definition | . | alloc_lsn | Next log record allocation | . | ckpt_lsn | Last checkpoint | . | sync_lsn | Last record synced to disk | . | write_lsn | End of the last record written to the operating system | . | write_start_lsn | Start of the last record written to the operating system | . WiredTiger uses B-trees to store data in volatile memory. A snapshot is a consistent, durable view of these B-trees, which is periodically written out to disk. Starting from version 3.6, MongoDB configures WiredTiger to create checkpoints (i.e., write the snapshot data to disk) every 60 seconds. To provide durability in the event of failure between checkpoints, WiredTiger uses WAL to maintain on-disk journal files. WiredTiger creates one log record for each client-initiated write operation. A log record wraps all internal write operations to WiredTiger’s in-memory data structures caused by the application-initiated write. A log record consists of a 16-byte header and data. The first 4 bytes of the header contain the length of the record, and this length is always a multiple of 4 bytes. MongoDB configures WiredTiger to buffer all log records up to 128 KB in an in-memory data structure called the slot. Slots are synchronously flushed to non-volatile storage every 100 milliseconds or upon a full-sync write, whichever comes first. A full-sync write is a write operation that requires its journal record to be flushed to non-volatile storage before returning, ensuring that the written data survives a crash. This provides the strictest durability, in contrast to non-sync writes where the data is recorded in a buffer in memory but is not guaranteed to be immediately written to non-volatile storage. After a full-sync write is issued by the client to the query executor, all records in the slot buffer must be synchronized to non-volatile storage to commit the write. Checkpoints . In addition to journaling, MongoDB periodically initiates a checkpoint process at specific intervals (every 60 seconds) or when the volume of log data written reaches a threshold (2 GB). | Write Dirty Leaf Pages: . | Instead of overwriting existing data, new versions of dirty leaf pages are written into free space on disk. | . | Write Internal Pages, Including the Root: . | The internal pages, along with the root page, are written. Importantly, the old checkpoint remains valid until this process is complete. | . | Sync the File: . | The file containing the new pages is synced to ensure all changes are properly written to disk. | . | Update Metadata with New Root Address: . | The new root page’s address is written to the metadata. Once the metadata is durable, pages from old checkpoints can be freed. | . | . After every checkpoint, all journal records whose writes happened before the checkpoint are automatically garbage-collected, freeing space for future journal records. In this sense, the journal can be thought of as a circular buffer for write operations. WiredTiger keeps track of the current checkpoint and the current starting point for WAL in the journal file. Recovery . When recovering from a crash, WiredTiger first looks in the data files for the identifier of the last checkpoint, then searches the journal files for the record that matches this identifier. WiredTiger then reads log records one by one from the journal file: . | It scans through the header to obtain metadata, such as the size of the entire record. | It reads through the data part of the log record according to the metadata. | After reading each record, it immediately applies it and continues to the next record until all records are consumed. | . This structured approach ensures that MongoDB can recover reliably and efficiently from crashes, maintaining the integrity and durability of the data. ",
     "url": "/docs/mongo03/05/",
     
     "relUrl": "/docs/mongo03/05/"
-  },"22": {
+  },"29": {
     "doc": "Home",
     "title": "The Internals of MongoDB",
     "content": ". MongoDB is a powerful, open-source NoSQL database system known for its flexibility, scalability, and ease of use. It has become a popular choice for developers worldwide, particularly in environments that require rapid iteration and scalability. MongoDB is a complex system with many integrated components, each designed to handle specific tasks such as data storage, indexing, and query execution. These components work together to provide a high-performance and reliable database solution. Understanding the internal mechanisms of MongoDB is essential for effective administration and application integration, yet its complexity can present challenges to those unfamiliar with its architecture. The primary goals of this blog are to demystify the inner workings of MongoDB and to provide a comprehensive overview of its architecture. By exploring how each component functions and interacts with others, readers will gain valuable insights into MongoDB’s capabilities and potential. This blog will cover MongoDB versions 6.0 and earlier, highlighting key features and architectural decisions that make MongoDB a leading choice for modern data management solutions. This blog is based on thorough research and aims to provide accurate information about the internals of MongoDB. However, errors may still exist. If you notice any inaccuracies or have suggestions for improvement, please feel free to contact me. Your feedback is greatly appreciated and will help enhance the quality of this blog. ",
     "url": "/#the-internals-of-mongodb",
     
     "relUrl": "/#the-internals-of-mongodb"
-  },"23": {
+  },"30": {
     "doc": "Home",
     "title": "Home",
     "content": " ",
     "url": "/",
     
     "relUrl": "/"
-  },"24": {
+  },"31": {
     "doc": "1. Databases and Collections",
     "title": "1. Databases and Collections",
     "content": "1. DATABASES AND COLLECTIONS This chapter summarizes the basic knowledge of MongoDB to help to read the subsequent chapters. If you are already familiar with these topics, you may skip over this chapter. ",
     "url": "/docs/mongo01",
     
     "relUrl": "/docs/mongo01"
-  },"25": {
+  },"32": {
     "doc": "2. Memory Management",
     "title": "Background",
     "content": "CPU speeds have remained relatively constant for the past decade, but servers now have the capability to support more CPUs. Modern servers are equipped with many CPUs or cores, and each core has multiple memory caches that need to maintain cache coherence by “snooping” on writes to ensure consistency. Traditional data engines face challenges with this architecture because writing to shared memory is slow, and snoopy cache coherence does not scale well. Databases, which manage shared access to data, are particularly affected by these limitations. MongoDB addressed these challenges by transitioning from the MMAPv1 storage engine to WiredTiger. This decision was driven by the need for lower storage costs, better hardware utilization, and more predictable performance—critical requirements for handling the demands of modern, multi-core servers. ",
     "url": "/docs/mongo02#background",
     
     "relUrl": "/docs/mongo02#background"
-  },"26": {
+  },"33": {
     "doc": "2. Memory Management",
     "title": "WiredTiger vs. MMAPv1",
     "content": "WiredTiger offers several advantages that make it well-suited for these environments: . | Feature | WiredTiger | MMAPv1 | . | Scalability | Designed to perform better on multicore systems, making it more scalable in modern server environments. | Not optimized for scaling with multiple cores; adding CPU cores does not significantly improve performance. | . | Concurrency | Uses MVCC (Multi-Version Concurrency Control) for document-level concurrency, allowing simultaneous transactions. | Uses collection-level locking, limiting concurrency and potentially leading to performance bottlenecks under high workloads. | . | Data Storage | Utilizes a B-tree layout for data storage, offering efficient data organization and retrieval. | Uses memory-mapped files, which are less efficient in terms of data organization and retrieval. | . | Compression | Supports gzip and snappy (default) compression for indexes and collections, leading to smaller collection sizes. | Does not support compression, resulting in larger collection sizes. | . |   | Also supports index-prefix compression, reducing index size both on disk and in memory. |   | . By adopting WiredTiger, MongoDB provides a more robust solution for the challenges of modern server architectures. WiredTiger’s design supports the scalability and performance demands of high-scale applications, making it the preferred choice over the previous MMAPv1 engine. The use of locking mechanisms further helps manage data access and consistency in multi-core environments, ensuring MongoDB can efficiently handle concurrent operations. ",
     "url": "/docs/mongo02#wiredtiger-vs-mmapv1",
     
     "relUrl": "/docs/mongo02#wiredtiger-vs-mmapv1"
-  },"27": {
+  },"34": {
     "doc": "2. Memory Management",
     "title": "2. Memory Management",
     "content": "2. MEMORY MANAGMENT In the rapidly evolving world of data management, choosing the right storage engine can significantly impact the performance and scalability of a database system. This post explores how MongoDB has addressed these challenges by transitioning from the MMAPv1 storage engine to WiredTiger, offering a modern solution that delivers enhanced scalability, concurrency, and data management capabilities. ",
     "url": "/docs/mongo02",
     
     "relUrl": "/docs/mongo02"
-  },"28": {
+  },"35": {
     "doc": "3. Block Manager",
     "title": "3. Block Manager",
-    "content": "3. BLOCK MANAGER . WiredTiger’s storage architecture is optimized for multi-core CPUs and large memory. It consists of two key components: in-memory cache and disk block manager. Here’s a brief overview: . | In-Memory Cache: Implemented using a B-tree structure with hazard pointers. B-tree nodes are organized at the page level, and the cache eviction policy follows the LRU (Least Recently Used) algorithm. | Disk Block Manager: Handles raw block I/O operations, including: . | Reading and Writing Pages | Checksum/Verification | Space Management | Compression | Checkpoints | . | . In-Memory Page Format . WiredTiger represents database tables using a B-Tree data structure (WT_BTREE in btree.h). The B-tree is composed of nodes, which are page structures: . | Root and Internal Pages: Store keys and references to other pages. | Leaf Pages: Store keys and values. As users insert data, records are kept in sorted order. When a page reaches its limit, it splits, causing the B-tree to expand. | . On-Disk Page Format . Extents represent ranges of contiguous blocks on disk. Extents are categorized as: . | alloc: Blocks allocated for storing data. | avail: Blocks that have been allocated but are not currently in use. | discard: Blocks that have been freed up during the checkpoint process. | . This structure lays the foundation for how WiredTiger manages data both in memory and on disk. In the subsequent sections, we will delve deeper into how the block manager operates within this structure, including how it handles I/O operations, manages space, and ensures data integrity through checkpoints and other mechanisms. ",
+    "content": "3. BLOCK MANAGER . WiredTiger’s storage architecture is optimized for multi-core CPUs and large memory. It consists of two key components: in-memory cache and disk block manager. Here’s a brief overview: . | In-Memory Cache: Implemented using a B-tree structure with hazard pointers. B-tree nodes are organized at the page level, and the cache eviction policy follows the LRU (Least Recently Used) algorithm. | Disk Block Manager: Handles raw block I/O operations, including: . | Reading and Writing Pages | Checksum/Verification | Space Management | Compression | Checkpoints | . | . In-Memory Page Format . WiredTiger represents database tables using a B-Tree data structure (WT_BTREE in btree.h). The B-tree is composed of nodes, which are page structures: . | Root and Internal Pages: Store keys and references to other pages. | Leaf Pages: Store keys and values. As users insert data, records are kept in sorted order. When a page reaches its limit, it splits, causing the B-tree to expand. | . On-Disk Page Format . Extents represent ranges of contiguous blocks on disk. This structure lays the foundation for how WiredTiger manages data both in memory and on disk. In the subsequent sections, we will delve deeper into how the block manager operates within this structure, including how it handles I/O operations, manages space, and ensures data integrity through checkpoints and other mechanisms. ",
     "url": "/docs/mongo03",
     
     "relUrl": "/docs/mongo03"
-  },"29": {
+  },"36": {
     "doc": "References",
     "title": "References",
     "content": " ",

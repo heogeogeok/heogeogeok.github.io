@@ -46,11 +46,6 @@ WiredTiger represents database tables using a **B-Tree** data structure (`WT_BTR
 
 **Extents** represent ranges of contiguous blocks on disk.
 
-**Extents** are categorized as:
-- **`alloc`**: Blocks allocated for storing data.
-- **`avail`**: Blocks that have been allocated but are not currently in use.
-- **`discard`**: Blocks that have been freed up during the checkpoint process.
-
 <div style="text-align: center;">
   <img src="/assets/images/memory-disk.png" alt="memory-disk"/>
 </div>
