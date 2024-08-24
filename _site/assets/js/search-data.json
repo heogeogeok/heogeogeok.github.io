@@ -203,89 +203,131 @@
     "relUrl": "/docs/mongo02/03/"
   },"29": {
     "doc": "3.3. Compression",
+    "title": "3.3.1 Compression Granularity",
+    "content": ". | Block-level . | Compress a block of tuples for the same table. | . | Tuple-level . | Compress the contents of the entire tuple. | . | Attribute-level . | Compress a single attribute within one tuple. | Can target multiple attributes for the same tuple. | . | Column-level . | Compress multiple values for one or more attributes stored for multiple tuples. | . | . ",
+    "url": "/docs/mongo03/03/#331-compression-granularity",
+    
+    "relUrl": "/docs/mongo03/03/#331-compression-granularity"
+  },"30": {
+    "doc": "3.3. Compression",
+    "title": "3.3.2. Compression Algorithms",
+    "content": "WiredTiger, used by MongoDB, supports compression of data on disk across three specific areas. There are two primary compression algorithms available, each with its own trade-offs: . | snappy (2011) . | The default compression algorithm used by WiredTiger. | It is used to compress the page. | It provides fast compression with low CPU overhead, making it suitable for general-purpose use where performance is a priority over maximum compression. | . | zlib (1995) . | A widely-used compression algorithm that offers higher compression ratios than snappy. | It requires more CPU resources and time, making it better suited for scenarios where storage efficiency is more important than performance. | . | zstd (2015) . | A modern compression algorithm that balances high compression ratios with relatively fast processing times. | It generally provides better compression than snappy and is more efficient in terms of speed compared to zlib, but still requires more CPU than snappy. | . | none . | This option disables compression entirely, which may be desirable in cases where compression overhead is not acceptable or storage space is not a concern. | . | . ",
+    "url": "/docs/mongo03/03/#332-compression-algorithms",
+    
+    "relUrl": "/docs/mongo03/03/#332-compression-algorithms"
+  },"31": {
+    "doc": "3.3. Compression",
+    "title": "3.3.3. Compression Areas",
+    "content": "WiredTiger allows compression in the following areas: . | Collection Data: Compresses the data within collections. | Index Data: Compresses the data within indexes. | Journal Data: Compresses the data used for ensuring redundancy and recoverability while being written to long-term storage. | . ",
+    "url": "/docs/mongo03/03/#333-compression-areas",
+    
+    "relUrl": "/docs/mongo03/03/#333-compression-areas"
+  },"32": {
+    "doc": "3.3. Compression",
+    "title": "3.3.4. Prefix Compression",
+    "content": "MongoDB WiredTiger’s row-store storage format supports a variant of prefix compression in the disk layout by identifying prefixes between adjacent keys, similar to delta-encoding: . | Prefix Handling: . | Each key stores only the suffix key bytes and the number of prefix bytes common with the previous key. | The first key in the node is stored fully; following keys store only the suffix. | . | Key Decompression: . | Decompression requires finding a fully instantiated key and then walking forward to build the key. | . | . ",
+    "url": "/docs/mongo03/03/#334-prefix-compression",
+    
+    "relUrl": "/docs/mongo03/03/#334-prefix-compression"
+  },"33": {
+    "doc": "3.3. Compression",
+    "title": "3.3.5. Suffix Truncation",
+    "content": "WiredTiger implements a suffix truncation technique: . | Example: . | When a node splits between keys \"abfe\" and \"bacd\", \"b\" is promoted to the parent node instead of the entire key \"bacd\". | . | . ",
+    "url": "/docs/mongo03/03/#335-suffix-truncation",
+    
+    "relUrl": "/docs/mongo03/03/#335-suffix-truncation"
+  },"34": {
+    "doc": "3.3. Compression",
+    "title": "3.3.6 Key Instantiation Techniques",
+    "content": "WiredTiger supports two key instantiation techniques to help with search and insertion: . | Best Prefix Group: . | Maintains a best slot whose base key can be used to decompress the most keys without scanning. | The most-used page key prefix is the longest group of compressed key prefixes that can be built from a single, fully instantiated key. | . | Roll-forward Distance Control: . | Instantiates some keys in advance to avoid slow searches. | Limits how far the cursor must roll backward by setting a “skipping distance.” | For each set of keys within this distance, WiredTiger instantiates the first key. | . | . ",
+    "url": "/docs/mongo03/03/#336-key-instantiation-techniques",
+    
+    "relUrl": "/docs/mongo03/03/#336-key-instantiation-techniques"
+  },"35": {
+    "doc": "3.3. Compression",
     "title": "3.3. Compression",
-    "content": "3.3. COMPRESSION . I/O is the main bottleneck if the DBMS fetches data from disk during query execution. To mitigate this, the DBMS can compress pages to maximize the efficiency of the data moved per I/O operation. Goals . | Fixed-Length Values: . | The compression process should produce fixed-length values. | The only exception is variable-length data, which should be stored in a separate pool. | . | Postpone Decompression: . | Decompression should be delayed as long as possible during query execution, a technique known as late materialization. | . | Lossless Compression: . | The compression scheme must ensure that no data is lost during the process. | . | . Compression Granularity . | Block-level . | Compress a block of tuples for the same table. | . | Tuple-level . | Compress the contents of the entire tuple. | . | Attribute-level . | Compress a single attribute within one tuple. | Can target multiple attributes for the same tuple. | . | Column-level . | Compress multiple values for one or more attributes stored for multiple tuples. | . | . Compression Algorithms . WiredTiger, used by MongoDB, supports compression of data on disk across three specific areas. There are two primary compression algorithms available, each with its own trade-offs: . | snappy (2011) . | The default compression algorithm used by WiredTiger. | It is used to compress the page. | It provides fast compression with low CPU overhead, making it suitable for general-purpose use where performance is a priority over maximum compression. | . | zlib (1995) . | A widely-used compression algorithm that offers higher compression ratios than snappy. | It requires more CPU resources and time, making it better suited for scenarios where storage efficiency is more important than performance. | . | zstd (2015) . | A modern compression algorithm that balances high compression ratios with relatively fast processing times. | It generally provides better compression than snappy and is more efficient in terms of speed compared to zlib, but still requires more CPU than snappy. | . | none . | This option disables compression entirely, which may be desirable in cases where compression overhead is not acceptable or storage space is not a concern. | . | . Compression Areas . WiredTiger allows compression in the following areas: . | Collection Data: Compresses the data within collections. | Index Data: Compresses the data within indexes. | Journal Data: Compresses the data used for ensuring redundancy and recoverability while being written to long-term storage. | . Prefix Compression . MongoDB WiredTiger’s row-store storage format supports a variant of prefix compression in the disk layout by identifying prefixes between adjacent keys, similar to delta-encoding: . | Prefix Handling: . | Each key stores only the suffix key bytes and the number of prefix bytes common with the previous key. | The first key in the node is stored fully; following keys store only the suffix. | . | Example: . | First key: \"abcd\" (prefix size: 0). | Second key: \"abefg\" (shares \"ab\" with \"abcd\", stores \"efg\" and prefix size 2). | . | Key Decompression: . | Decompression requires finding a fully instantiated key and then walking forward to build the key. | . | . Suffix Truncation . WiredTiger implements a suffix truncation technique similar to Tail Compression: . | Example: . | When a node splits between keys \"abfe\" and \"bacd\", \"b\" is promoted to the parent node instead of the entire key \"bacd\". | . | . Key Instantiation Techniques . WiredTiger supports two key instantiation techniques to help with search and insertion: . | Best Prefix Group: . | Maintains a best slot whose base key can be used to decompress the most keys without scanning. | The most-used page key prefix is the longest group of compressed key prefixes that can be built from a single, fully instantiated key. | . | Roll-forward Distance Control: . | Instantiates some keys in advance to avoid slow searches. | Limits how far the cursor must roll backward by setting a “skipping distance.” | For each set of keys within this distance, WiredTiger instantiates the first key. | . | . ",
+    "content": "3.3. COMPRESSION . I/O is the main bottleneck if the DBMS fetches data from disk during query execution. To mitigate this, the DBMS can compress pages to maximize the efficiency of the data moved per I/O operation. Goals . | Fixed-Length Values: . | The compression process should produce fixed-length values. | The only exception is variable-length data, which should be stored in a separate pool. | . | Postpone Decompression: . | Decompression should be delayed as long as possible during query execution, a technique known as late materialization. | . | Lossless Compression: . | The compression scheme must ensure that no data is lost during the process. | . | . ",
     "url": "/docs/mongo03/03/",
     
     "relUrl": "/docs/mongo03/03/"
-  },"30": {
+  },"36": {
     "doc": "3.4. Logging",
     "title": "3.4.1. Write-Ahead Logging (WAL)",
     "content": "Write-Ahead Logging (WAL) is a family of techniques designed to provide atomicity and durability (two of the ACID properties) in database systems. WAL involves wrapping information about the current write operation and storing it durably before confirming the write to the client application. A log sequence number (LSN) is usually associated with each logged write to establish the happen-before relation between logs. Log records are stored in a memory log buffer and are later synchronously written to non-volatile storage by the WAL protocol. Upon failure, a data recovery scheme like ARIES replays all logs in LSN order to reconstruct the state of the database immediately prior to the crash. | Name | Definition | . | alloc_lsn | Next log record allocation | . | ckpt_lsn | Last checkpoint | . | sync_lsn | Last record synced to disk | . | write_lsn | End of the last record written to the operating system | . | write_start_lsn | Start of the last record written to the operating system | . WiredTiger uses B-trees to store data in volatile memory. A snapshot is a consistent, durable view of these B-trees, which is periodically written out to disk. Starting from version 3.6, MongoDB configures WiredTiger to create checkpoints (i.e., write the snapshot data to disk) every 60 seconds. To provide durability in the event of failure between checkpoints, WiredTiger uses WAL to maintain on-disk journal files. WiredTiger creates one log record for each client-initiated write operation. A log record wraps all internal write operations to WiredTiger’s in-memory data structures caused by the application-initiated write. A log record consists of a 16-byte header and data. The first 4 bytes of the header contain the length of the record, and this length is always a multiple of 4 bytes. MongoDB configures WiredTiger to buffer all log records up to 128 KB in an in-memory data structure called the slot. Slots are synchronously flushed to non-volatile storage every 100 milliseconds or upon a full-sync write, whichever comes first. A full-sync write is a write operation that requires its journal record to be flushed to non-volatile storage before returning, ensuring that the written data survives a crash. This provides the strictest durability, in contrast to non-sync writes where the data is recorded in a buffer in memory but is not guaranteed to be immediately written to non-volatile storage. After a full-sync write is issued by the client to the query executor, all records in the slot buffer must be synchronized to non-volatile storage to commit the write. ",
     "url": "/docs/mongo03/04/#341-write-ahead-logging-wal",
     
     "relUrl": "/docs/mongo03/04/#341-write-ahead-logging-wal"
-  },"31": {
+  },"37": {
     "doc": "3.4. Logging",
     "title": "3.4.2. Checkpoints",
     "content": "In addition to journaling, MongoDB periodically initiates a checkpoint process at specific intervals (every 60 seconds) or when the volume of log data written reaches a threshold (2 GB). | Write Dirty Leaf Pages: . | Instead of overwriting existing data, new versions of dirty leaf pages are written into free space on disk. | . | Write Internal Pages, Including the Root: . | The internal pages, along with the root page, are written. Importantly, the old checkpoint remains valid until this process is complete. | . | Sync the File: . | The file containing the new pages is synced to ensure all changes are properly written to disk. | . | Update Metadata with New Root Address: . | The new root page’s address is written to the metadata. Once the metadata is durable, pages from old checkpoints can be freed. | . | . After every checkpoint, all journal records whose writes happened before the checkpoint are automatically garbage-collected, freeing space for future journal records. In this sense, the journal can be thought of as a circular buffer for write operations. WiredTiger keeps track of the current checkpoint and the current starting point for WAL in the journal file. ",
     "url": "/docs/mongo03/04/#342-checkpoints",
     
     "relUrl": "/docs/mongo03/04/#342-checkpoints"
-  },"32": {
+  },"38": {
     "doc": "3.4. Logging",
     "title": "3.4.3. Recovery",
     "content": "When recovering from a crash, WiredTiger first looks in the data files for the identifier of the last checkpoint, then searches the journal files for the record that matches this identifier. WiredTiger then reads log records one by one from the journal file: . | It scans through the header to obtain metadata, such as the size of the entire record. | It reads through the data part of the log record according to the metadata. | After reading each record, it immediately applies it and continues to the next record until all records are consumed. | . This structured approach ensures that MongoDB can recover reliably and efficiently from crashes, maintaining the integrity and durability of the data. ",
     "url": "/docs/mongo03/04/#343-recovery",
     
     "relUrl": "/docs/mongo03/04/#343-recovery"
-  },"33": {
+  },"39": {
     "doc": "3.4. Logging",
     "title": "3.4. Logging",
     "content": "3.4. LOGGING . To ensure consistency and durability, MongoDB employs a journaling approach and periodically triggers checkpoints at defined intervals. Crashes between checkpoints, however, may result in a loss of writes that have not yet been written to disk. Write-ahead logging (WAL) provides a way to make these writes durable. ",
     "url": "/docs/mongo03/04/",
     
     "relUrl": "/docs/mongo03/04/"
-  },"34": {
+  },"40": {
     "doc": "Home",
     "title": "The Internals of MongoDB",
     "content": ". MongoDB is a powerful, open-source NoSQL database system known for its flexibility, scalability, and ease of use. It has become a popular choice for developers worldwide, particularly in environments that require rapid iteration and scalability. MongoDB is a complex system with many integrated components, each designed to handle specific tasks such as data storage, indexing, and query execution. These components work together to provide a high-performance and reliable database solution. Understanding the internal mechanisms of MongoDB is essential for effective administration and application integration, yet its complexity can present challenges to those unfamiliar with its architecture. The primary goals of this blog are to demystify the inner workings of MongoDB and to provide a comprehensive overview of its architecture. By exploring how each component functions and interacts with others, readers will gain valuable insights into MongoDB’s capabilities and potential. This blog will cover MongoDB versions 6.0 and earlier, highlighting key features and architectural decisions that make MongoDB a leading choice for modern data management solutions. This blog is based on thorough research and aims to provide accurate information about the internals of MongoDB. However, errors may still exist. If you notice any inaccuracies or have suggestions for improvement, please feel free to contact me. Your feedback is greatly appreciated and will help enhance the quality of this blog. ",
     "url": "/#the-internals-of-mongodb",
     
     "relUrl": "/#the-internals-of-mongodb"
-  },"35": {
+  },"41": {
     "doc": "Home",
     "title": "Home",
     "content": " ",
     "url": "/",
     
     "relUrl": "/"
-  },"36": {
+  },"42": {
     "doc": "1. Databases and Collections",
     "title": "1. Databases and Collections",
     "content": "1. DATABASES AND COLLECTIONS This chapter summarizes the basic knowledge of MongoDB to help to read the subsequent chapters. If you are already familiar with these topics, you may skip over this chapter. ",
     "url": "/docs/mongo01",
     
     "relUrl": "/docs/mongo01"
-  },"37": {
+  },"43": {
     "doc": "2. Memory Management",
     "title": "Background",
     "content": "CPU speeds have remained relatively constant for the past decade, but servers now have the capability to support more CPUs. Modern servers are equipped with many CPUs or cores, and each core has multiple memory caches that need to maintain cache coherence by “snooping” on writes to ensure consistency. Traditional data engines face challenges with this architecture because writing to shared memory is slow, and snoopy cache coherence does not scale well. Databases, which manage shared access to data, are particularly affected by these limitations. MongoDB addressed these challenges by transitioning from the MMAPv1 storage engine to WiredTiger. This decision was driven by the need for lower storage costs, better hardware utilization, and more predictable performance—critical requirements for handling the demands of modern, multi-core servers. ",
     "url": "/docs/mongo02#background",
     
     "relUrl": "/docs/mongo02#background"
-  },"38": {
+  },"44": {
     "doc": "2. Memory Management",
     "title": "WiredTiger vs. MMAPv1",
     "content": "WiredTiger offers several advantages that make it well-suited for these environments: . | Feature | WiredTiger | MMAPv1 | . | Scalability | Designed to perform better on multicore systems, making it more scalable in modern server environments. | Not optimized for scaling with multiple cores; adding CPU cores does not significantly improve performance. | . | Concurrency | Uses MVCC (Multi-Version Concurrency Control) for document-level concurrency, allowing simultaneous transactions. | Uses collection-level locking, limiting concurrency and potentially leading to performance bottlenecks under high workloads. | . | Data Storage | Utilizes a B-tree layout for data storage, offering efficient data organization and retrieval. | Uses memory-mapped files, which are less efficient in terms of data organization and retrieval. | . | Compression | Supports gzip and snappy (default) compression for indexes and collections, leading to smaller collection sizes. | Does not support compression, resulting in larger collection sizes. | . |   | Also supports index-prefix compression, reducing index size both on disk and in memory. |   | . By adopting WiredTiger, MongoDB provides a more robust solution for the challenges of modern server architectures. WiredTiger’s design supports the scalability and performance demands of high-scale applications, making it the preferred choice over the previous MMAPv1 engine. The use of locking mechanisms further helps manage data access and consistency in multi-core environments, ensuring MongoDB can efficiently handle concurrent operations. ",
     "url": "/docs/mongo02#wiredtiger-vs-mmapv1",
     
     "relUrl": "/docs/mongo02#wiredtiger-vs-mmapv1"
-  },"39": {
+  },"45": {
     "doc": "2. Memory Management",
     "title": "2. Memory Management",
     "content": "2. MEMORY MANAGMENT In the rapidly evolving world of data management, choosing the right storage engine can significantly impact the performance and scalability of a database system. This post explores how MongoDB has addressed these challenges by transitioning from the MMAPv1 storage engine to WiredTiger, offering a modern solution that delivers enhanced scalability, concurrency, and data management capabilities. ",
     "url": "/docs/mongo02",
     
     "relUrl": "/docs/mongo02"
-  },"40": {
+  },"46": {
     "doc": "3. Block Manager",
     "title": "3. Block Manager",
     "content": "3. BLOCK MANAGER . WiredTiger’s storage architecture is optimized for multi-core CPUs and large memory. It consists of two key components: in-memory cache and disk block manager. Here’s a brief overview: . | In-Memory Cache: Implemented using a B-tree structure with hazard pointers. B-tree nodes are organized at the page level, and the cache eviction policy follows the LRU (Least Recently Used) algorithm. | Disk Block Manager: Handles raw block I/O operations, including: . | Reading and Writing Pages | Checksum/Verification | Space Management | Compression | Checkpoints | . | . In-Memory Page Format . WiredTiger represents database tables using a B-Tree data structure (WT_BTREE in btree.h). The B-tree is composed of nodes, which are page structures: . | Root and Internal Pages: Store keys and references to other pages. | Leaf Pages: Store keys and values. As users insert data, records are kept in sorted order. When a page reaches its limit, it splits, causing the B-tree to expand. | . On-Disk Page Format . Extents represent ranges of contiguous blocks on disk. This structure lays the foundation for how WiredTiger manages data both in memory and on disk. In the subsequent sections, we will delve deeper into how the block manager operates within this structure, including how it handles I/O operations, manages space, and ensures data integrity through checkpoints and other mechanisms. ",
     "url": "/docs/mongo03",
     
     "relUrl": "/docs/mongo03"
-  },"41": {
+  },"47": {
     "doc": "References",
     "title": "References",
     "content": " ",
